@@ -1,0 +1,21 @@
+# .github/workflows/deploy-backend.yml
+name: Deploy Backend
+
+on:
+    workflow_run:
+        branches:
+            - main
+        paths:
+            - "backend/**" # backendに変更のあった時のみ実行
+
+jobs:
+    deploy:
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v4
+            - uses: akhileshns/heroku-deploy@v3.13.15
+              with:
+                  heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+                  heroku_app_name: "api-node-ec-app2"
+                  heroku_email: "hnaoya1120@gmail.com"
+                  buildpack: "https://github.com/lstoll/heroku-buildpack-monorepo.git,heroku/gradle" # 必要に応じて変更
